@@ -1,5 +1,4 @@
 const MongoClient = require('mongodb').MongoClient
-
 const config = require('../config')
 
 module.exports = {
@@ -7,7 +6,7 @@ module.exports = {
 }
 
 // Database Name
-const dbName = 'tester_db'
+const dbName = 'TRELLWORKS'
 
 var dbConn = null
 
