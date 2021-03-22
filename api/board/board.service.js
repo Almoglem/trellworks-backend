@@ -47,24 +47,19 @@ async function update(board) {
         boardToSave._id = ObjectId(boardToSave._id);
         const collection = await dbService.getCollection('board')
         await collection.updateOne({ '_id': boardToSave._id }, { $set: boardToSave })
-        return toyToSave;
+        return boardToSave;
     } catch (err) {
         logger.error(`cannot update board ${board._id}`, err)
         throw err
     }
 }
 
-async function add(review) {
+async function add(board) {
     try {
-        // peek only updatable fields!
-        const reviewToAdd = {
-            byUserId: ObjectId(review.byUserId),
-            aboutUserId: ObjectId(review.aboutUserId),
-            txt: review.txt
-        }
-        const collection = await dbService.getCollection('review')
-        await collection.insertOne(reviewToAdd)
-        return reviewToAdd;
+        const boardToAdd = board;
+        const collection = await dbService.getCollection('board')
+        await collection.insertOne(boardToAdd)
+        return boardToAdd;
     } catch (err) {
         logger.error('cannot insert review', err)
         throw err

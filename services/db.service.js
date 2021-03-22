@@ -6,7 +6,7 @@ module.exports = {
 }
 
 // Database Name
-const dbName = 'TRELLWORKS'
+const dbName = 'TRELLWORKS_DB'
 
 var dbConn = null
 
