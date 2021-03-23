@@ -4,7 +4,7 @@ const asyncLocalStorage = require('./als.service');
 const logger = require('./logger.service');
 
 var gIo = null
-var gSocketBySessionIdMap = {}
+// var gSocketBySessionIdMap = {}
 
 function connectSockets(http, session) {
     gIo = require('socket.io')(http);
@@ -15,32 +15,14 @@ function connectSockets(http, session) {
         autoSave: true
     }));
     gIo.on('connection', socket => {
-        // console.log('socket.handshake', socket.handshake)
-        gSocketBySessionIdMap[socket.handshake.sessionID] = socket
-        // TODO: emitToUser feature - need to tested for CaJan21
-        // if (socket.handshake?.session?.user) socket.join(socket.handshake.session.user._id)
-        socket.on('disconnect', socket => {
-            console.log('Someone disconnected')
-            if (socket.handshake) {
-                gSocketBySessionIdMap[socket.handshake.sessionID] = null
-            }
-        })
-        socket.on('chat topic', topic => {
-            if (socket.myTopic === topic) return;
-            if (socket.myTopic) {
-                socket.leave(socket.myTopic)
-            }
-            socket.join(topic)
-            // logger.debug('Session ID is', socket.handshake.sessionID)
-            socket.myTopic = topic
-        })
-        socket.on('chat newMsg', msg => {
-            // emits to all sockets:
-            // gIo.emit('chat addMsg', msg)
-            // emits only to sockets in the same room
-            gIo.to(socket.myTopic).emit('chat addMsg', msg)
-        })
+        // gSocketBySessionIdMap[socket.handshake.sessionID] = socket
 
+        socket.on('disconnect', socket => {
+ 
+        })
+        socket.on('board update', board => {
+            socket.broadcast.emit('board updated', board)
+        })
     })
 }
 
