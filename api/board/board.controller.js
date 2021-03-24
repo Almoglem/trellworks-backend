@@ -32,7 +32,6 @@ async function deleteBoard(req, res) {
     }
 }
 
-
 async function addBoard(req, res) {
     try {
         const board = req.body
