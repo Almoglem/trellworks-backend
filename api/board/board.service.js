@@ -14,21 +14,16 @@ async function query(filterBy = {}) {
     }
 }
 
-// async function remove(reviewId) {
-//     try {
-//         const store = asyncLocalStorage.getStore()
-//         const { userId, isAdmin } = store
-//         const collection = await dbService.getCollection('review')
-//         // remove only if user is owner/admin
-//         const query = { _id: ObjectId(reviewId) }
-//         if (!isAdmin) query.byUserId = ObjectId(userId)
-//         await collection.deleteOne(query)
-//         // return await collection.deleteOne({ _id: ObjectId(reviewId), byUserId: ObjectId(userId) })
-//     } catch (err) {
-//         logger.error(`cannot remove review ${reviewId}`, err)
-//         throw err
-//     }
-// }
+
+async function remove(boardId) {
+    try {
+        const collection = await dbService.getCollection('board')
+        await collection.deleteOne({ '_id': ObjectId(boardId) })
+    } catch (err) {
+        logger.error(`cannot remove board ${boardId}`, err)
+        throw err
+    }
+}
 
 async function getById(boardId) {
     try {
@@ -73,7 +68,7 @@ function _buildCriteria(filterBy) {
 
 module.exports = {
     query,
-    // remove,
+    remove,
     add,
     getById,
     update
