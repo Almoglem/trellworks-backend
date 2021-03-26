@@ -92,8 +92,10 @@ async function add(user) {
             username: user.username,
             password: user.password,
             fullname: user.fullname,
+            profileImg: user.profileImg,
             boards: []
         }
+        console.log('user service- entering usr', userToAdd);
         const collection = await dbService.getCollection('user')
         await collection.insertOne(userToAdd)
         return userToAdd
