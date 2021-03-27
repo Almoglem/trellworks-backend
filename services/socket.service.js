@@ -22,6 +22,7 @@ function connectSockets(http, session) {
         })
         socket.on('board update', board => {
             socket.broadcast.emit('board updated', board)
+            socket.broadcast.emit('add notification',board.activities[0])
         })
     })
 }
