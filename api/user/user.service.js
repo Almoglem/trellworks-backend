@@ -97,7 +97,8 @@ async function add(user) {
             notifications: {
                 board: '',
                 alerts: []
-            }
+            },
+            createdAt: Date.now()
         }
         console.log('user service- entering usr', userToAdd);
         const collection = await dbService.getCollection('user')
