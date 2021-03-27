@@ -72,14 +72,10 @@ async function remove(userId) {
 }
 
 async function update(user) {
+    console.log('backend here', user);
     try {
-        // peek only updatable fields!
-        const userToSave = {
-            _id: ObjectId(user._id),
-            username: user.username,
-            fullname: user.fullname,
-            profileImg: user.profileImg
-        }
+        const userToSave = user;
+        userToSave._id = ObjectId(user._id);
         const collection = await dbService.getCollection('user')
         await collection.updateOne({ '_id': userToSave._id }, { $set: userToSave })
         return userToSave;
@@ -96,9 +92,10 @@ async function add(user) {
             username: user.username,
             password: user.password,
             fullname: user.fullname,
-            boards: [],
-            profileImg: user.profileImg
+            profileImg: user.profileImg,
+            boards: []
         }
+        console.log('user service- entering usr', userToAdd);
         const collection = await dbService.getCollection('user')
         await collection.insertOne(userToAdd)
         return userToAdd
