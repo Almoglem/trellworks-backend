@@ -17,13 +17,28 @@ async function login(username, password) {
 }
 
 async function signup(username, password, fullname, profileImg) {
-    console.log('auth service', profileImg);
     const saltRounds = 10
 
     logger.debug(`auth.service - signup with username: ${username}, fullname: ${fullname}`)
     if (!username || !password || !fullname) return Promise.reject('fullname, username and password are required!')
 
+
+    const users = await userService.query();
+
+    for (i = 0; i < users.length; i++) {
+        if (users[i].username === username) {
+            return Promise.reject('Username is already taken')
+        }
+    }
+    // users.forEach(user => {
+    //     if (user.username === username) {
+    //         Promise.reject('Username is already taken')
+    //         return;
+    //     }
+    // });
+
     const hash = await bcrypt.hash(password, saltRounds)
+    console.log('got here!!');
     return userService.add({ username, password: hash, fullname, profileImg })
 }
 
