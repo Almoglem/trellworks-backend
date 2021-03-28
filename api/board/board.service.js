@@ -2,11 +2,21 @@ const dbService = require('../../services/db.service')
 const ObjectId = require('mongodb').ObjectId
 const asyncLocalStorage = require('../../services/als.service')
 
-async function query(filterBy = {}) {
-    const criteria = _buildCriteria(filterBy)
+async function query(isMinimized) {
     try {
         const collection = await dbService.getCollection('board')
-        var boards = await collection.find(criteria).toArray()
+        let boards = await collection.find().toArray();
+        if (isMinimized) {
+            miniBoards = boards.map(board => {
+                return {
+                    _id: board._id,
+                    title: board.title,
+                    styles: board.styles
+                }
+            });
+            console.log('mini boards', miniBoards);
+            return miniBoards;
+        }
         return boards
     } catch (err) {
         logger.error('cannot find boards', err)
@@ -59,11 +69,6 @@ async function add(board) {
         logger.error('cannot insert review', err)
         throw err
     }
-}
-
-function _buildCriteria(filterBy) {
-    const criteria = {}
-    return criteria
 }
 
 module.exports = {
