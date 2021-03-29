@@ -39,6 +39,7 @@ async function getById(boardId) {
     try {
         const collection = await dbService.getCollection('board')
         const board = await collection.findOne({ '_id': ObjectId(boardId) })
+        if(board.activities.length >= 50) board.activities.splice(board.activities.length-1, 1)
         return board
     } catch (err) {
         logger.error(`while finding toy ${boardId}`, err)
@@ -63,6 +64,7 @@ async function add(board) {
     try {
         const boardToAdd = board;
         const collection = await dbService.getCollection('board')
+        console.log(collection.length, 'from db');
         await collection.insertOne(boardToAdd)
         return boardToAdd;
     } catch (err) {
