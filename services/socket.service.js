@@ -21,19 +21,18 @@ function connectSockets(http, session) {
  
         })
         socket.on('board topic', topic => {
-            console.log(topic, 'topic', socket.myTopic);
             if (socket.myTopic === topic) return;
             if (socket.myTopic) {
                 socket.leave(socket.myTopic)
             }
             socket.join(topic)
             socket.myTopic = topic
-            // logger.debug('Session ID is', socket.handshake.sessionID)
+            
 
         })
         socket.on('board update', board => {
-            socket.to(socket.myTopic).emit('board updated', board)
-            socket.to(socket.myTopic).emit('add notification',board.activities[0])
+            gIo.to(socket.myTopic).emit('board updated', board)
+            gIo.to(socket.myTopic).emit('add notification',board.activities[0])
         })
     })
 }
