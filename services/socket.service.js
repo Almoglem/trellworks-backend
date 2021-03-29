@@ -20,9 +20,20 @@ function connectSockets(http, session) {
         socket.on('disconnect', socket => {
  
         })
+        socket.on('board topic', topic => {
+            console.log(topic, 'topic', socket.myTopic);
+            if (socket.myTopic === topic) return;
+            if (socket.myTopic) {
+                socket.leave(socket.myTopic)
+            }
+            socket.join(topic)
+            socket.myTopic = topic
+            // logger.debug('Session ID is', socket.handshake.sessionID)
+
+        })
         socket.on('board update', board => {
-            socket.broadcast.emit('board updated', board)
-            socket.broadcast.emit('add notification',board.activities[0])
+            socket.to(socket.myTopic).emit('board updated', board)
+            socket.to(socket.myTopic).emit('add notification',board.activities[0])
         })
     })
 }

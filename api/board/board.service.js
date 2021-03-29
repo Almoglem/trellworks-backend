@@ -11,7 +11,8 @@ async function query(isMinimized) {
                 return {
                     _id: board._id,
                     title: board.title,
-                    styles: board.styles
+                    styles: board.styles,
+                    isStarred: board.isStarred
                 }
             });
             console.log('mini boards', miniBoards);
