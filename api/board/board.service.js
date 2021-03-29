@@ -64,7 +64,6 @@ async function add(board) {
     try {
         const boardToAdd = board;
         const collection = await dbService.getCollection('board')
-        console.log(collection.length, 'from db');
         await collection.insertOne(boardToAdd)
         return boardToAdd;
     } catch (err) {

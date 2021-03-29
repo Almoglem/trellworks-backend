@@ -69,7 +69,6 @@ async function remove(userId) {
 }
 
 async function update(user) {
-    console.log('backend here', user);
     try {
         const userToSave = user;
         userToSave._id = ObjectId(user._id);
@@ -97,7 +96,6 @@ async function add(user) {
             },
             createdAt: Date.now()
         }
-        console.log('user service- entering usr', userToAdd);
         const collection = await dbService.getCollection('user')
         await collection.insertOne(userToAdd)
         return userToAdd

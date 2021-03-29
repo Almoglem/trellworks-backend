@@ -38,7 +38,6 @@ async function signup(username, password, fullname, profileImg) {
     // });
 
     const hash = await bcrypt.hash(password, saltRounds)
-    console.log('got here!!');
     return userService.add({ username, password: hash, fullname, profileImg })
 }
 
