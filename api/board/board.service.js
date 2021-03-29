@@ -15,7 +15,6 @@ async function query(isMinimized) {
                     isStarred: board.isStarred
                 }
             });
-            console.log('mini boards', miniBoards);
             return miniBoards;
         }
         return boards
@@ -40,7 +39,7 @@ async function getById(boardId) {
     try {
         const collection = await dbService.getCollection('board')
         const board = await collection.findOne({ '_id': ObjectId(boardId) })
-        if(board.activities.length >= 50) board.activities.splice(board.activities.length-1, 1)
+        if (board.activities.length >= 50) board.activities.splice(board.activities.length - 1, 1)
         return board
     } catch (err) {
         logger.error(`while finding toy ${boardId}`, err)
