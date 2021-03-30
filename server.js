@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const path = require('path')
 const expressSession = require('express-session')
+const {cloudinary} = require('./services/cloudinary.service')
 
 const app = express()
 const http = require('http').createServer(app)
@@ -29,6 +30,17 @@ if (process.env.NODE_ENV === 'production') {
 const authRoutes = require('./api/auth/auth.routes')
 const userRoutes = require('./api/user/user.routes')
 const boardRoutes = require('./api/board/board.routes')
+app.post('/api/upload', async (req, res) => {
+    try {
+        const fileStr = req.body.img
+        const uploadedRes = await cloudinary.uploader.upload(fileStr, {
+            upload_preset: 'ml_default'
+        });
+        res.json(uploadedRes.url);
+    } catch (err) {
+        console.log(err);
+    }
+})
 const { connectSockets } = require('./services/socket.service')
 
 // routes
