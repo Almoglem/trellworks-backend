@@ -25,17 +25,19 @@ async function getBoard(req, res) {
 
 async function deleteBoard(req, res) {
     try {
-        if (req.params.id === '60632833f0c8d3001556781b'
-            || req.params.id === '636212907ad16945f0800c7f'
-            || req.params.id === '6062231855c6426f8c7ab2e1'
+        if (
+            (req.params.id === '6062231855c6426f8c7ab2e1' ||
+                req.params.id === '60632833f0c8d3001556781b' ||
+                req.params.id === '606212907ad16945f0800c7f')
             && !req.session.user.isAdmin) {
-            throw new Error('Sorry, you are not eligible to delete this board.')
+            throw new Error('not eligable');
         }
         await boardService.remove(req.params.id)
         res.send({ msg: 'Deleted successfully' })
     } catch (err) {
-        logger.error('Failed to delete board', err)
         res.status(500).send({ err: 'Failed to delete board' })
+        logger.error('Failed to delete board', err)
+
     }
 }
 
