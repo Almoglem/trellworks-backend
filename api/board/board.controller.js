@@ -25,6 +25,10 @@ async function getBoard(req, res) {
 
 async function deleteBoard(req, res) {
     try {
+        console.log(req.session.user);
+        if(req.params.id === '6069895388f6452e4876edc2' && !req.session.user.isAdmin) {
+            throw new Error('Sorry you are not eligible to delete this board.')
+        }
         await boardService.remove(req.params.id)
         res.send({ msg: 'Deleted successfully' })
     } catch (err) {

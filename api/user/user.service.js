@@ -94,8 +94,11 @@ async function add(user) {
                 board: '',
                 alerts: []
             },
-            createdAt: Date.now()
+            createdAt: Date.now(),
+            isAdmin: false
         }
+        if(user.username === 'gali' || user.username === 'guy' || user.username === 'almog')
+        userToAdd.isAdmin = true
         const collection = await dbService.getCollection('user')
         await collection.insertOne(userToAdd)
         return userToAdd
